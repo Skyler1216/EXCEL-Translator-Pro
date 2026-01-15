@@ -1,0 +1,5 @@
+{
+  "name": "Excel Translator Pro",
+  "description": "A powerful client-side tool to translate Japanese Excel design documents to English while preserving layout and styles using the Gemini API.",
+  "requestFramePermissions": []
+}
