@@ -1,20 +1,88 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Excel Translator Pro
 
-# Run and deploy your AI Studio app
+Excelファイル（日本語の設計書など）のレイアウトや書式を保持したまま、Google Gemini AI を使用して英語に翻訳するWebアプリケーションです。
 
-This contains everything you need to run your app locally.
+## 特徴
 
-View your app in AI Studio: https://ai.studio/apps/drive/1QCy4Nb05PoP96ABlNiDQJSK4JXgEZGYk
+*   **レイアウト保持:** セルの配置、色、結合状態などを維持したまま翻訳します。
+*   **Gemini 2.0 Flash採用:** 高速かつ高精度な翻訳が可能です。
+*   **部分保存機能:** エラー発生時でも、途中までの翻訳結果をダウンロード可能です。
+*   **セキュア:** ブラウザ上で処理が完結するため、ファイルが外部サーバーに保存されることはありません（翻訳テキストのみAPIに送信されます）。
 
-## Run Locally
+## 動作環境
 
-**Prerequisites:**  Node.js
+*   Node.js (v18以上推奨)
+*   Google Gemini API Key
 
+## セットアップ手順 (ローカル環境)
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+このリポジトリをフォーク・クローンした後、以下の手順でセットアップしてください。
+
+### 1. 依存関係のインストール
+
+ターミナルでプロジェクトのルートディレクトリに移動し、以下のコマンドを実行します。
+
+```bash
+npm install
+```
+
+### 2. APIキーの取得
+
+翻訳には Google Gemini API が必要です。
+1.  [Google AI Studio](https://aistudio.google.com/app/apikey) にアクセスします。
+2.  「Create API key」をクリックしてキーを取得します。
+    *   **注意:** 1日の無料枠（Quota）が多い「Gemini 2.0 Flash」を使用していますが、大量のファイルを翻訳する場合は有料プラン（Pay-as-you-go）の検討が必要になる場合があります。
+
+### 3. 環境変数の設定
+
+プロジェクトのルート直下に `.env` ファイルを作成し、取得したAPIキーを設定します。
+
+1.  `.env.example` ファイルをコピーして `.env` という名前に変更します。
+2.  `.env` ファイルを開き、以下のように書き換えます。
+
+```env
+# .env
+VITE_API_KEY=あなたのAPIキーをここに貼り付け
+```
+
+> **重要:** `.env` ファイルには秘密鍵が含まれるため、GitHub等にはコミットしないでください（`.gitignore` に設定済み）。
+
+### 4. アプリケーションの起動
+
+以下のコマンドで開発サーバーを起動します。
+
+```bash
+npm run dev
+```
+
+ブラウザが自動的に開き（または `http://localhost:5173` にアクセス）、アプリが表示されます。
+
+## 使い方
+
+1.  画面中央のドラッグ＆ドロップエリアに翻訳したい `.xlsx` ファイルをドロップします。
+2.  「Translate Document」ボタンをクリックします。
+3.  進捗バーが表示され、翻訳が始まります。
+4.  完了すると自動的に翻訳済みのファイル（`translated_ファイル名.xlsx`）がダウンロードされます。
+
+## トラブルシューティング
+
+### "API Rate Limit Exceeded" / "Quota Exhausted" エラーが出る
+*   **原因:** Google APIの短時間の利用制限、または1日の無料枠を超えました。
+*   **対策:**
+    *   このアプリは自動的に待機時間を設けたりリトライを行いますが、それでも失敗する場合は、しばらく時間を置いてから実行してください。
+    *   エラー画面に表示される「Download Partial Result」ボタンから、途中までのデータを保存できます。
+
+### ファイルが読み込めない
+*   パスワード付きのExcelファイルや、極端に古い形式（.xls）はサポートしていません。.xlsx形式を使用してください。
+
+## 技術スタック
+
+*   React + TypeScript
+*   Vite
+*   Tailwind CSS
+*   ExcelJS / JSZip (Excel操作)
+*   @google/genai (AI翻訳)
+
+## ライセンス
+
+MIT License
