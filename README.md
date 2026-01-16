@@ -1,5 +1,5 @@
 # Excel Translator Pro
-
+テスト
 Excelファイル（日本語の設計書など）のレイアウトや書式を保持したまま、Google Gemini AI を使用して英語に翻訳するWebアプリケーションです。
 
 ## 特徴
